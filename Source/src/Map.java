@@ -24,15 +24,16 @@ public class Map {
         }
     }
 
-    void LoadMapDataFromLine(int line)  // line 1 or line 2
+    void LoadMapDataFromLine(int line)  // specify the line
     {
         line--;
+        boolean obstacles = fileData.get(line).contains("#");
         RobotsList = new ArrayList<>();
 
         String robotsPositionsString;
         String polygonsDataString = null;
 
-        if (line % 2 == 1) {
+        if (obstacles) {
             String data[] = fileData.get(line).split("#");
             robotsPositionsString = data[0];
             polygonsDataString = data[1];
@@ -50,7 +51,7 @@ public class Map {
             RobotsList.add(new Robot(new Coordinates(x, y)));
         }
 
-        if (line % 2 == 0)
+        if (!obstacles)
             return;
 
         String[] polygonsDataStringSplit = polygonsDataString.split(";");
