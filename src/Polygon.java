@@ -5,10 +5,10 @@ import java.util.ArrayList;
  * Created by Gabriel on 20/02/2017.
  */
 public class Polygon {
-    public ArrayList<Line2D> Verteces;
+    public ArrayList<Line2D> Lines;
 
     public Polygon()
     {
-        Verteces = new ArrayList<>();
+        Lines = new ArrayList<>();
     }
 }

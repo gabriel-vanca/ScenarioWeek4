@@ -8,7 +8,7 @@ public class Robot {
         SetPosition(coordinates);
     }
 
-    public Coordinates GetPosition() {
+    public Coordinates GetCoordinates() {
         return robotPosition;
     }
 
