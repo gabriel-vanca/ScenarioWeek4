@@ -1,4 +1,5 @@
 import DataStructures.Coordinates;
+import DataStructures.Node;
 import DataStructures.Robot;
 import FileIO.InputReader;
 import UtilityObjects.NumberScanner;
@@ -29,6 +30,9 @@ public class Map {
 
     public void LoadMapDataFromLine(int line)  // specify the line
     {
+        //We get the Graph instance
+        Graph graph = Graph.GetInstance();
+
         //We initialise the arrays
         RobotsList = new ArrayList<>();
         obstaclesList = new ArrayList<>();
@@ -65,7 +69,10 @@ public class Map {
         while (scannerObj.HasNextDouble()) {
             double x = scannerObj.GetNextDouble();
             double y = scannerObj.GetNextDouble();
-            RobotsList.add(new Robot(new Coordinates(x, y)));
+            Robot currentRobot = new Robot(new Coordinates(x, y));
+            RobotsList.add(currentRobot);
+            Node node = new Node(x,y,currentRobot);
+            graph.AddNode(node);
         }
 
         //If there are no obstacles, there is nothing else to read
@@ -92,8 +99,10 @@ public class Map {
                 double x = scannerObj.GetNextDouble();
                 double y = scannerObj.GetNextDouble();
 
-                Line2D newLine;
+                Node node = new Node(x,y);
+                graph.AddNode(node);
 
+                Line2D newLine;
                 if (obstaclesList.isEmpty()) {
                     Line2D lastLine = obstaclesList.get(obstaclesList.size() - 1);
                     newLine = new Line2D.Double(lastLine.getX2(), lastLine.getY2(), x, y);

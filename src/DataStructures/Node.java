@@ -8,19 +8,22 @@ import java.util.ArrayList;
 
 public class Node {
 
+    private Coordinates coordinates;
+
     public ArrayList<Robot> robotsAtThisNode;
     public ArrayList<Edge> adjacentNodes;
 
-    public Node()
+    public Node(double x, double y)
     {
         robotsAtThisNode = new ArrayList<>();
         adjacentNodes = new ArrayList<>();
+        coordinates = new Coordinates(x,y);
     }
 
-    public Node(Robot robot)
+    public Node(double x, double y, Robot currentRobot)
     {
-        this();
-        robotsAtThisNode.add(robot);
+        this(x,y);
+        robotsAtThisNode.add(currentRobot);
     }
 
     public void AddNeighbouringNode(Node node)
@@ -29,4 +32,8 @@ public class Node {
         adjacentNodes.add(edge);
     }
 
+    public Coordinates GetCoordinates()
+    {
+        return coordinates;
+    }
 }

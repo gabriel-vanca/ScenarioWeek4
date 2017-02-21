@@ -1,5 +1,4 @@
 import DataStructures.Node;
-import DataStructures.Robot;
 
 import java.util.ArrayList;
 
@@ -14,6 +13,7 @@ public class Graph{
 
     private Graph()
     {
+        nodesList = new ArrayList<>();
     }
 
     public static Graph GetInstance()
@@ -23,21 +23,7 @@ public class Graph{
         return instance;
     }
 
-    public void GenerateGraph() {
-        nodesList = new ArrayList<>();
-        Map map = Map.GetInstance();
-
-        for (Robot robot : map.RobotsList) {
-            Node currentNode = new Node(robot);
-            nodesList.add(currentNode);
-        }
-
-        for (Node node1 : nodesList) {
-            for (Node node2 : nodesList) {
-                if(node1 != node2)
-                    node1.AddNeighbouringNode(node2);
-            }
-        }
+    public void AddNode(Node node) {
+        nodesList.add(node);
     }
-
 }
