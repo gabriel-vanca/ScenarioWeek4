@@ -8,20 +8,17 @@ public class Main {
         Map map = Map.GetInstance();
         Graph graph = Graph.GetInstance();
 
+        //start test purposes
+        map.LoadMapDataFromLine(1);
+        graph.GenerateGraph();
+        return;
+        //end test purposes
+
         int numberOfLines = inputReader.GetNumberOfLine();
         for(int currentLine=1; currentLine<=numberOfLines;currentLine++) {
 
             map.LoadMapDataFromLine(currentLine);
             graph.GenerateGraph();
-
-
-            //  createEdges();
-
-       /*     ArrayList<Robot> RobotsList;
-            ArrayList<Obstacle> obstaclesList;
-
-            RobotsList = map.RobotsList;
-            obstaclesList = map.obstaclesList;*/
         }
 
     }

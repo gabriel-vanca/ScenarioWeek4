@@ -25,7 +25,8 @@ public class Node {
 
     public void AddNeighbouringNode(Node node)
     {
-        Edge egde = new Edge(this, node);
+        Edge edge = new Edge(this, node);
+        adjacentNodes.add(edge);
     }
 
 }
