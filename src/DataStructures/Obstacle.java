@@ -7,10 +7,31 @@ import java.util.ArrayList;
  * Created by Gabriel on 20/02/2017.
  */
 public class Obstacle {
-    public ArrayList<Line2D> Lines;
+    private ArrayList<Line2D> edgesList;
 
     public Obstacle()
     {
-        Lines = new ArrayList<>();
+        edgesList = new ArrayList<>();
     }
+
+    public Line2D GetEdge(int index)
+    {
+        return edgesList.get(index);
+    }
+
+    public void AddEdge(Line2D newLine)
+    {
+        edgesList.add(newLine);
+    }
+
+    public void RemoveEdge(int index)
+    {
+        edgesList.remove(index);
+    }
+
+    public int GetNumberOfEdges()
+    {
+        return edgesList.size();
+    }
+
 }
