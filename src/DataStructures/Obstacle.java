@@ -1,13 +1,10 @@
 package DataStructures;
 
-import java.awt.geom.Line2D;
-import java.util.ArrayList;
-
 /**
  * Created by Gabriel on 20/02/2017.
  */
 public class Obstacle {
-    private ArrayList<Line2D> edgesList;
+/*    private ArrayList<Line2D> edgesList;
 
     public Obstacle()
     {
@@ -32,6 +29,6 @@ public class Obstacle {
     public int GetNumberOfEdges()
     {
         return edgesList.size();
-    }
+    } */
 
 }

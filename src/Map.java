@@ -1,5 +1,4 @@
 import DataStructures.Coordinates;
-import DataStructures.Obstacle;
 import DataStructures.Robot;
 import FileIO.InputReader;
 import UtilityObjects.NumberScanner;
@@ -17,7 +16,7 @@ public class Map {
 
     public ArrayList<Robot> RobotsList;
    // public ArrayList<Edge> EdgesList = new ArrayList<Edge>(); ANOTHER DUBIOUS PIECE OF CODE. WTF IS GOING ON???
-    public ArrayList<Obstacle> obstaclesList;
+    public ArrayList<Line2D> obstaclesList;
 
     private Map() {
     }
@@ -39,10 +38,10 @@ public class Map {
 
         //We get the content of the file as an ArrayList of Strings
         InputReader inputFile = InputReader.GetInstance();
-        
+
         //We get the relevant line from the file
         String lineContent = inputFile.GetLine(line);
-        
+
         //We check if there are any obstacles
         boolean obstacles = lineContent.contains("#");
 
@@ -81,7 +80,8 @@ public class Map {
         //We parse through each of the relevant polygon Strings
         for (String polygonDataString : polygonsDataStringSplit) {
 
-            Obstacle newObstacle = new Obstacle();
+            Line2D tempLineToRemove = new Line2D.Double(0,0,0,0);
+            obstaclesList.add(tempLineToRemove);
 
             /*We initilise a new NumberScanner for each of the relevant Strings
               and then we get each vertex of the obstacles.
@@ -92,17 +92,18 @@ public class Map {
                 double x = scannerObj.GetNextDouble();
                 double y = scannerObj.GetNextDouble();
 
-                if (newObstacle.GetNumberOfEdges() > 0) {
-                    Line2D lastLine = newObstacle.GetEdge(newObstacle.GetNumberOfEdges() - 1);
-                    Line2D newLine = new Line2D.Double(lastLine.getX2(), lastLine.getY2(), x, y);
-                    newObstacle.AddEdge(newLine);
+                Line2D newLine;
+
+                if (obstaclesList.isEmpty()) {
+                    Line2D lastLine = obstaclesList.get(obstaclesList.size() - 1);
+                    newLine = new Line2D.Double(lastLine.getX2(), lastLine.getY2(), x, y);
                 } else {
-                    Line2D newLine = new Line2D.Double(x, y, x, y);
-                    newObstacle.AddEdge(newLine);
+                    newLine = new Line2D.Double(x, y, x, y);
                 }
+                obstaclesList.add(newLine);
             }
-            newObstacle.RemoveEdge(0);
-            obstaclesList.add(newObstacle);
+
+            obstaclesList.remove(tempLineToRemove);
         }
     }
 }
