@@ -1,25 +1,39 @@
-import java.io.IOException;
-import java.util.ArrayList;
+import FileIO.InputReader;
 
 public class Main {
 
-    public static void main(String[] args) {
-        Map map = new Map();
-        try {
-            map.ReadFile();
-            map.LoadMapDataFromLine(1);
-            map.createEdges();
+    public static void main(String[] args)
+    {
+        InputReader inputReader = InputReader.GetInstance();
+        Map map = Map.GetInstance();
+        Graph graph = Graph.GetInstance();
 
-            ArrayList<Robot> RobotsList;
-            ArrayList<Polygon> PolygonsList;
+        //start test purposes
+        map.LoadMapDataFromLine(1);
+        graph.GenerateGraph();
+        //end test purposes
 
-            RobotsList = map.RobotsList;
-            PolygonsList = map.PolygonsList;
+        int numberOfLines = inputReader.GetNumberOfLine();
+        for(int currentLine=1; currentLine<=numberOfLines;currentLine++) {
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println(e.toString());
+            map.LoadMapDataFromLine(currentLine);
+            graph.GenerateGraph();
         }
+
     }
+
+
+
+    //DUBIOUS CODE???
+
+    // Calling function to create edges with current DataStructures.Robot List
+  /*  public void createEdges() {
+        for (int i=0; i < RobotsList.size(); i++){
+            for (int j = i + 1; j < RobotsList.size(); j++){
+                Edge newEdge = new Edge(RobotsList.get(i), RobotsList.get(j));
+                EdgesList.add(newEdge);
+            }
+        }
+    }*/
 
 }

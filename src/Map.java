@@ -1,5 +1,9 @@
+import DataStructures.Coordinates;
+import DataStructures.Robot;
+import FileIO.InputReader;
+import UtilityObjects.NumberScanner;
+
 import java.awt.geom.Line2D;
-import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -8,44 +12,55 @@ import java.util.ArrayList;
 
 public class Map {
 
+    private static Map instance = null;
+
     public ArrayList<Robot> RobotsList;
-    public ArrayList<Edges> EdgesList = new ArrayList<Edges>();
-    public ArrayList<Polygon> PolygonsList;
-    private ArrayList<String> fileData;
+   // public ArrayList<Edge> EdgesList = new ArrayList<Edge>(); ANOTHER DUBIOUS PIECE OF CODE. WTF IS GOING ON???
+    public ArrayList<Line2D> obstaclesList;
 
-    void ReadFile() throws IOException
-    {
-        FileReader file = new FileReader("./Files/robots.mat");
-        BufferedReader fileReader = new BufferedReader(file);
-        fileData = new ArrayList<>();
-        String line;
-
-        while((line = fileReader.readLine()) != null)
-        {
-            fileData.add(line);
-        }
+    private Map() {
     }
 
-    void LoadMapDataFromLine(int line)  // specify the line
-    {
-        line--;
-        boolean obstacles = fileData.get(line).contains("#");
-        RobotsList = new ArrayList<>();
+    public static Map GetInstance() {
+        if (instance == null)
+            instance = new Map();
+        return instance;
+    }
 
+    public void LoadMapDataFromLine(int line)  // specify the line
+    {
+        //We initialise the arrays
+        RobotsList = new ArrayList<>();
+        obstaclesList = new ArrayList<>();
+
+        //Lines start from 1 in the file
+        line--;
+
+        //We get the content of the file as an ArrayList of Strings
+        InputReader inputFile = InputReader.GetInstance();
+
+        //We get the relevant line from the file
+        String lineContent = inputFile.GetLine(line);
+
+        //We check if there are any obstacles
+        boolean obstacles = lineContent.contains("#");
+
+        //We split the line into the two contents
         String robotsPositionsString;
-        String polygonsDataString = null;
+        String polygonsVerticesString = null;
 
         if (obstacles) {
-            String data[] = fileData.get(line).split("#");
+            String data[] = lineContent.split("#");
             robotsPositionsString = data[0];
-            polygonsDataString = data[1];
-            data = null;
+            polygonsVerticesString = data[1];
         } else {
-            robotsPositionsString = fileData.get(line);
+            robotsPositionsString = lineContent;
         }
 
+        //We initialise our intelligently designed NumberScanner
         NumberScanner scannerObj = new NumberScanner(robotsPositionsString);
 
+        //We get the whole list of robots
         scannerObj.GetNextDouble();
         while (scannerObj.HasNextDouble()) {
             double x = scannerObj.GetNextDouble();
@@ -53,46 +68,42 @@ public class Map {
             RobotsList.add(new Robot(new Coordinates(x, y)));
         }
 
+        //If there are no obstacles, there is nothing else to read
         if (!obstacles)
             return;
 
-        String[] polygonsDataStringSplit = polygonsDataString.split(";");
-        int numberOfPolygons = polygonsDataStringSplit.length;
-        PolygonsList = new ArrayList<>();
+        /*We split the String into an ArrayList of Strings that contain
+          the relevant content for each of the polygons.
+         */
+        String[] polygonsDataStringSplit = polygonsVerticesString.split(";");
 
-        for (int i = 0; i < numberOfPolygons; i++) {
-            PolygonsList.add(new Polygon());
-            scannerObj = new NumberScanner(polygonsDataStringSplit[i]);
+        //We parse through each of the relevant polygon Strings
+        for (String polygonDataString : polygonsDataStringSplit) {
+
+            Line2D tempLineToRemove = new Line2D.Double(0,0,0,0);
+            obstaclesList.add(tempLineToRemove);
+
+            /*We initilise a new NumberScanner for each of the relevant Strings
+              and then we get each vertex of the obstacles.
+             */
+            scannerObj = new NumberScanner(polygonDataString);
+
             while (scannerObj.HasNextDouble()) {
                 double x = scannerObj.GetNextDouble();
                 double y = scannerObj.GetNextDouble();
 
-                if(!PolygonsList.get(i).Lines.isEmpty()) {
-                    Line2D lastLine = PolygonsList.get(i).Lines.get(PolygonsList.get(i).Lines.size() - 1);
-                    Line2D newLine = new Line2D.Double(lastLine.getX2(), lastLine.getY2(), x, y);
-                    PolygonsList.get(i).Lines.add(newLine);
+                Line2D newLine;
+
+                if (obstaclesList.isEmpty()) {
+                    Line2D lastLine = obstaclesList.get(obstaclesList.size() - 1);
+                    newLine = new Line2D.Double(lastLine.getX2(), lastLine.getY2(), x, y);
+                } else {
+                    newLine = new Line2D.Double(x, y, x, y);
                 }
-                else
-                {
-                    Line2D newLine = new Line2D.Double(x,y,x,y);
-                    PolygonsList.get(i).Lines.add(newLine);
-                }
+                obstaclesList.add(newLine);
             }
 
-            PolygonsList.get(i).Lines.remove(0);
-
+            obstaclesList.remove(tempLineToRemove);
         }
     }
-
-    // Calling function to create edges with current Robot List
-    void createEdges() {
-        for (int i=0; i < RobotsList.size(); i++){
-            for (int j = i + 1; j < RobotsList.size(); j++){
-                Edges newEdge = new Edges(RobotsList.get(i), RobotsList.get(j));
-                EdgesList.add(newEdge);
-            }
-        }
-    }
-
-
 }
