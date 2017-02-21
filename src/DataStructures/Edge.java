@@ -9,18 +9,18 @@ import static java.lang.Math.sqrt;
 public class Edge {
 
     private Node node1;
-    private Node Node2;
+    private Node node2;
     private double weight;
 
-    public Edge(Node node1, Node Node2) {
+    public Edge(Node node1, Node node2) {
         this.node1 = node1;
-        this.Node2 = Node2;
+        this.node2 = node2;
 
         // Formula to calculate the distance between two vertices
         weight = sqrt(
-                pow(Node2.getCoordinates().x - node1.getCoordinates().x, 2)
+                pow(node2.getXPos() - node1.getXPos(), 2)
                         +
-                        pow(Node2.getCoordinates().y - node1.getCoordinates().y, 2));
+                        pow(node2.getYPos() - node1.getYPos(), 2));
     }
 
     public double getWeight() {

@@ -6,18 +6,27 @@ package DataStructures;
 
 public class Node {
 
-    private Coordinates robotPosition;
+    private double xPos;
+    private double yPos;
 
-    public Node(Coordinates coordinates) {
-        setCoordinates(coordinates);
+    public Node(double xPos, double yPos) {
+        this.xPos = xPos;
+        this.yPos = yPos;
     }
 
-    public Coordinates getCoordinates() {
-        return robotPosition;
+    public double getXPos() {
+        return xPos;
     }
 
-    public void setCoordinates(Coordinates newCoordinates) {
-        robotPosition = newCoordinates;
+    public void setXPos(double xPos) {
+        this.xPos = xPos;
     }
 
+    public double getYPos() {
+        return yPos;
+    }
+
+    public void setYPos(double yPos) {
+        this.yPos = yPos;
+    }
 }

@@ -16,8 +16,9 @@ public class Map {
     //NOTE: COMMENT THE CODE
     //NOTE: MOVE ANDREAS' CODE OUT FO THIS CLASS
 
-    public ArrayList<Node> nodesList;
-    public ArrayList<Edge> EdgeList = new ArrayList<Edge>();
+    public ArrayList<Node> robotNodeList;
+    public ArrayList<Node> allNodeList;
+    public ArrayList<Edge> edgeList = new ArrayList<>();
     public ArrayList<Obstacle> obstaclesList;
 
 
@@ -26,7 +27,7 @@ public class Map {
         InputReader inputFile = InputReader.getInstance();
         line--;
         boolean obstacles = inputFile.GetLine(line).contains("#");
-        nodesList = new ArrayList<>();
+        robotNodeList = new ArrayList<>();
 
         String robotsPositionsString;
         String polygonsDataString = null;
@@ -46,7 +47,7 @@ public class Map {
         while (scannerObj.hasNextDouble()) {
             double x = scannerObj.getNextDouble();
             double y = scannerObj.getNextDouble();
-            nodesList.add(new Node(new Coordinates(x, y)));
+            robotNodeList.add(new Node(x, y));
         }
 
         if (!obstacles)
@@ -82,13 +83,18 @@ public class Map {
 
     // Calling function to create Edge with current DataStructures.Robot List
     public void createEdge() {
-        for (int i=0; i < nodesList.size(); i++){
-            for (int j = i + 1; j < nodesList.size(); j++){
-                Edge newEdge = new Edge(nodesList.get(i), nodesList.get(j));
-                EdgeList.add(newEdge);
+        for (int i = 0; i < robotNodeList.size(); i++){
+            for (int j = i + 1; j < robotNodeList.size(); j++){
+                Edge newEdge = new Edge(robotNodeList.get(i), robotNodeList.get(j));
+                edgeList.add(newEdge);
             }
         }
     }
+
+    // Create allNodes list
+    public void createAllNodesList(){
+
+}
 
 
 }
