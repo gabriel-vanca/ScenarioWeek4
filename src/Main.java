@@ -11,7 +11,6 @@ public class Main {
         //start test purposes
         map.LoadMapDataFromLine(1);
         graph.GenerateGraph();
-        return;
         //end test purposes
 
         int numberOfLines = inputReader.GetNumberOfLine();
