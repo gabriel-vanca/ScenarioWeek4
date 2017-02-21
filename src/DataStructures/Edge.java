@@ -6,21 +6,21 @@ import static java.lang.Math.sqrt;
 /**
  * Created by Andreas Zinonos on 20/02/17.
  */
-public class Edges {
+public class Edge {
 
-    private Robot robot1;
-    private Robot robot2;
+    private Node node1;
+    private Node Node2;
     private double weight;
 
-    public Edges(Robot robot1, Robot robot2) {
-        this.robot1 = robot1;
-        this.robot2 = robot2;
+    public Edge(Node node1, Node Node2) {
+        this.node1 = node1;
+        this.Node2 = Node2;
 
         // Formula to calculate the distance between two vertices
         weight = sqrt(
-                pow(robot2.GetCoordinates().x - robot1.GetCoordinates().x, 2)
+                pow(Node2.getCoordinates().x - node1.getCoordinates().x, 2)
                         +
-                        pow(robot2.GetCoordinates().y - robot1.GetCoordinates().y, 2));
+                        pow(Node2.getCoordinates().y - node1.getCoordinates().y, 2));
     }
 
     public double getWeight() {

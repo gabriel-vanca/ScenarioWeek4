@@ -13,7 +13,7 @@ public class NumberScanner {
         position = 0;
     }
 
-    public Boolean HasNextDouble() {
+    public Boolean hasNextDouble() {
 
         //Ignore all characters until a number starts
         for (; position < loadedString.length(); position++) {
@@ -33,9 +33,9 @@ public class NumberScanner {
 
     }
 
-    public double GetNextDouble() {
+    public double getNextDouble() {
 
-        if (!HasNextDouble())
+        if (!hasNextDouble())
             return 0;
 
         String number = "";

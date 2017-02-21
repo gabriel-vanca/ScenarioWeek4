@@ -1,6 +1,6 @@
 import DataStructures.Map;
+import DataStructures.Node;
 import DataStructures.Obstacle;
-import DataStructures.Robot;
 
 import java.util.ArrayList;
 
@@ -9,13 +9,13 @@ public class Main {
     public static void main(String[] args) {
         Map map = new Map();
 
-        map.LoadMapDataFromLine(1);
-        map.createEdges();
+        map.loadMapDataFromLine(1);
+        map.createEdge();
 
-        ArrayList<Robot> RobotsList;
+        ArrayList<Node> nodesList;
         ArrayList<Obstacle> obstaclesList;
 
-        RobotsList = map.RobotsList;
+        nodesList = map.nodesList;
         obstaclesList = map.obstaclesList;
 
     }

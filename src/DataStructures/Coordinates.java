@@ -10,10 +10,10 @@ public class Coordinates
 
     public Coordinates(double x, double y)
     {
-        SetCoordinates(x,y);
+        setCoordinates(x,y);
     }
 
-    public void SetCoordinates(double x, double y)
+    public void setCoordinates(double x, double y)
     {
         this.x = x;
         this.y = y;
