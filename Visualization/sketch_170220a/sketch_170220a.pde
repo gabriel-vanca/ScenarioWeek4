@@ -1,18 +1,19 @@
 void setup() {
   
-  int canvasSize = 600;
+  int canvasSize = 650;
   int halfCanvasSize = canvasSize/2;
+  int robotSize = 2;
   size(650, 650);
-  translate(halfCanvasSize+25,halfCanvasSize+25);
+  translate(halfCanvasSize,halfCanvasSize);
   
   PImage bg;
   bg = loadImage("bg2.jpg");
   background(bg);
   
   // Example from brief:
-  String robot_coords = robot_coords0;
-  String obstacle_string = obstacle_coords0;
-  String solution_path = solution_path0;
+  String robot_coords = robot_coords29;
+  String obstacle_string = obstacle_coords29;
+  String solution_path = "";//solution_path0;
   
   // Remove any spaces from both strings
   robot_coords = robot_coords.replaceAll("\\s+","");  
@@ -78,7 +79,7 @@ void setup() {
     float adjustedY = -halfCanvasSize*robot_coordinates.get(i+1)/biggestNumber(all_coordinates);
     fill(255, 255, 255);
     print(adjustedX + " " +adjustedY + "\n");
-    ellipse(adjustedX, adjustedY,3,3);
+    ellipse(adjustedX, adjustedY,robotSize,robotSize);
   }
   
   for(String s : solution) {
