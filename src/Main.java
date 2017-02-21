@@ -10,14 +10,12 @@ public class Main {
 
         //start test purposes
         map.LoadMapDataFromLine(1);
-        graph.GenerateGraph();
         //end test purposes
 
         int numberOfLines = inputReader.GetNumberOfLine();
         for(int currentLine=1; currentLine<=numberOfLines;currentLine++) {
 
             map.LoadMapDataFromLine(currentLine);
-            graph.GenerateGraph();
         }
 
     }
