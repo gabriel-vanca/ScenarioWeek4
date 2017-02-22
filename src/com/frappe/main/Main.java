@@ -11,7 +11,7 @@ public class Main {
         InputReader inputReader = InputReader.GetInstance();
         Map map = Map.GetInstance();
         Graph graph = Graph.GetInstance();
-//        com.frappe.main.Pathfinder pathfinder = new com.frappe.main.Pathfinder();
+        com.frappe.main.Pathfinder pathfinder = new com.frappe.main.Pathfinder();
 
         //start test purposes
         map.LoadMapDataFromLine(1);
@@ -38,7 +38,7 @@ public class Main {
         }
 
 
-        ArrayList<Node> path = Pathfinder.findShortestPathAStar(startNode, targetNode);
+        ArrayList<Node> path = pathfinder.findShortestPathAStar(startNode, targetNode);
         //end test purposes
 //        printNode(startNode);
         for (int i = 0; i < path.size(); i++) {

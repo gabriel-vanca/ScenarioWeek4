@@ -10,11 +10,11 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * Created by kelv on 22/02/17.
+ * Created by kelv on 22/02/17.Your branch is ahead of 'origin/kelvin' by
  */
-public abstract class Pathfinder {
+public class Pathfinder {
 
-    public static ArrayList<Node> findShortestPathAStar(Node startNode, Node targetNode) {
+    public  ArrayList<Node> findShortestPathAStar(Node startNode, Node targetNode) {
         // Get initial state of the graph.
         Graph graph = Graph.GetInstance();
 
@@ -102,7 +102,7 @@ public abstract class Pathfinder {
     }
 
     //    private void reconstructPath(ArrayList<Node> cameFrom, Node current) {
-    private static ArrayList<Node> reconstructPath(HashMap<Node, Node> cameFrom, Node current) {
+    private  ArrayList<Node> reconstructPath(HashMap<Node, Node> cameFrom, Node current) {
         ArrayList<Node> totalPath = new ArrayList<>();
         totalPath.add(current);
 
@@ -113,7 +113,7 @@ public abstract class Pathfinder {
         return totalPath;
     }
 
-    private static double heuristicCostEstimate(Node startNode, Node targetNode) {
+    private  double heuristicCostEstimate(Node startNode, Node targetNode) {
         Coordinates p1 = startNode.GetCoordinates();
         Coordinates p2 = targetNode.GetCoordinates();
 
@@ -125,7 +125,7 @@ public abstract class Pathfinder {
     }
 
 
-    private static double distanceBetween(Node startNode, Node targetNode) {
+    private  double distanceBetween(Node startNode, Node targetNode) {
         Coordinates p1 = startNode.GetCoordinates();
         Coordinates p2 = targetNode.GetCoordinates();
 
