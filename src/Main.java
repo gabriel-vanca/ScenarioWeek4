@@ -43,11 +43,11 @@ public class Main {
 
         System.out.println("Number of nodes: " + graph.nodesList.size());
 
-        for (int currentLine = 1; currentLine <= numberOfLines; currentLine++) {
+       /* for (int currentLine = 1; currentLine <= numberOfLines; currentLine++) {
 
             map.LoadMapDataFromLine(currentLine);
 
-        }
+        }*/
 
     }
 }
