@@ -1,7 +1,7 @@
 import DataStructures.Coordinates;
 import DataStructures.Edge;
 import DataStructures.Node;
-import company.Coordinate;
+import DataStructures.Coordinates;
 
 
 import java.util.*;
@@ -49,10 +49,11 @@ public class Pathfinder {
 
         while (!openSet.isEmpty()) {
 //            Node current;
-            Collection values = fScore.values();
             Iterator entries = fScore.entrySet().iterator();
             Node current = null;
             double lowestValue = Double.MAX_VALUE;
+
+
             while (entries.hasNext()) {
                 Map.Entry<Node, Double> entry = (Map.Entry) entries.next();
                 Node node = entry.getKey();
@@ -71,7 +72,7 @@ public class Pathfinder {
             openSet.remove(current);
             closedSet.add(current);
 
-            for (Edge edge : current.adjacentNodes) {
+            for (Edge edge : current.edgesList) {
                 Node sourceNode = edge.node1;
                 Node neighbour = edge.node2;
 
@@ -110,7 +111,13 @@ public class Pathfinder {
     }
 
     private double heuristicCostEstimate(Node startNode, Node targetNode) {
-        return 0;
+        Coordinates p1 = startNode.GetCoordinates();
+        Coordinates p2 = targetNode.GetCoordinates();
+
+        double xDist = p2.x - p1.x;
+        double yDist = p2.y - p1.y;
+
+        return xDist + yDist;
     }
 
     private double distanceBetween(Node startNode, Node targetNode) {
