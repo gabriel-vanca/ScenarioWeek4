@@ -2,8 +2,7 @@ import FileIO.InputReader;
 
 public class Main {
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         InputReader inputReader = InputReader.GetInstance();
         Map map = Map.GetInstance();
         Graph graph = Graph.GetInstance();
@@ -13,13 +12,21 @@ public class Main {
         //end test purposes
 
         int numberOfLines = inputReader.GetNumberOfLine();
-        for(int currentLine=1; currentLine<=numberOfLines;currentLine++) {
+
+        System.out.println("Number of nodes: " + graph.nodesList.size());
+
+        for (int currentLine = 1; currentLine <= numberOfLines; currentLine++) {
 
             map.LoadMapDataFromLine(currentLine);
+
+            graph.findLineToRobots(graph.nodesList.get(0), graph.nodesList.get(1));
+
         }
 
-    }
 
+//        System.out.println("Number of nodes: " + graph.nodesList.size());
+
+    }
 
 
     //DUBIOUS CODE???
