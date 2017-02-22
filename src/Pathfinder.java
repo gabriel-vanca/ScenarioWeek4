@@ -59,7 +59,7 @@ public class Pathfinder {
                 Node node = entry.getKey();
                 double value = entry.getValue();
 
-                if (value < lowestValue) {
+                if (value < lowestValue && openSet.contains(node)) {
                     current = node;
                     lowestValue = value;
                 }
@@ -89,6 +89,7 @@ public class Pathfinder {
 
                 // Save best score.
 //                cameFrom
+                cameFrom.put(neighbour, current);
                 gScore.replace(neighbour, tentativeGScore);
                 fScore.replace(neighbour, gScore.get(neighbour) + heuristicCostEstimate(neighbour, targetNode));
 
@@ -118,7 +119,9 @@ public class Pathfinder {
         double yDist = Math.abs(p2.y - p1.y);
 
         return xDist + yDist;
+//        return 0;
     }
+
 
     private double distanceBetween(Node startNode, Node targetNode) {
         Coordinates p1 = startNode.GetCoordinates();
