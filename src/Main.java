@@ -19,7 +19,7 @@ public class Main {
 
             map.LoadMapDataFromLine(currentLine);
 
-            graph.findLineToRobots(graph.nodesList.get(0), graph.nodesList.get(1));
+//            graph.findLineToRobots(graph.nodesList.get(0), graph.nodesList.get(1));
 
         }
 
