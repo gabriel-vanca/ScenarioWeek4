@@ -14,7 +14,8 @@ public class Edge extends Line2D.Double {
     public Node node2 = null;
     public double weight;
 
-    public Edge(Node node1, Node node2) {
+    public Edge(Node node1, Node node2, Line2D line2D) {
+        super(line2D.getP1(), line2D.getP2());
         this.node1 = node1;
         this.node2 = node2;
         calculateWeight();

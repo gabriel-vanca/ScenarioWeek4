@@ -1,5 +1,6 @@
 import DataStructures.Coordinates;
 import DataStructures.Node;
+import DataStructures.Obstacle;
 import DataStructures.Robot;
 import FileIO.InputReader;
 import UtilityObjects.NumberScanner;
@@ -17,7 +18,7 @@ public class Map {
 
     public ArrayList<Robot> RobotsList;
    // public ArrayList<Edge> EdgesList = new ArrayList<Edge>(); ANOTHER DUBIOUS PIECE OF CODE. WTF IS GOING ON???
-    public ArrayList<Line2D> obstaclesList;
+    public ArrayList<Obstacle> obstaclesList;
 
     private Map() {
     }
@@ -71,7 +72,7 @@ public class Map {
             double y = scannerObj.GetNextDouble();
             Robot currentRobot = new Robot(new Coordinates(x, y));
             RobotsList.add(currentRobot);
-            Node node = new Node(x,y,currentRobot);
+            Node node = new Node(x,y,currentRobot, null);
             graph.AddNode(node);
         }
 
@@ -87,8 +88,9 @@ public class Map {
         //We parse through each of the relevant polygon Strings
         for (String polygonDataString : polygonsDataStringSplit) {
 
-            Line2D tempLineToRemove = new Line2D.Double(0,0,0,0);
-            obstaclesList.add(tempLineToRemove);
+            ArrayList<Node> verticesList = new ArrayList<>();
+            ArrayList<Line2D> edgesList = new ArrayList<>();
+            Obstacle newObstacle = new Obstacle(verticesList, edgesList);
 
             /*We initilise a new NumberScanner for each of the relevant Strings
               and then we get each vertex of the obstacles.
@@ -99,20 +101,22 @@ public class Map {
                 double x = scannerObj.GetNextDouble();
                 double y = scannerObj.GetNextDouble();
 
-                Node node = new Node(x,y);
+                Node node = new Node(x,y, newObstacle);
                 graph.AddNode(node);
+                verticesList.add(node);
 
                 Line2D newLine;
-                if (obstaclesList.isEmpty()) {
-                    Line2D lastLine = obstaclesList.get(obstaclesList.size() - 1);
+                if (!edgesList.isEmpty()) {
+                    Line2D lastLine = edgesList.get(edgesList.size() - 1);
                     newLine = new Line2D.Double(lastLine.getX2(), lastLine.getY2(), x, y);
                 } else {
                     newLine = new Line2D.Double(x, y, x, y);
                 }
-                obstaclesList.add(newLine);
+                edgesList.add(newLine);
             }
 
-            obstaclesList.remove(tempLineToRemove);
+            edgesList.remove(0);
+            obstaclesList.add(newObstacle);
         }
     }
 }

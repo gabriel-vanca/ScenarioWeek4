@@ -10,27 +10,30 @@ public class Node {
 
     private Coordinates coordinates;
 
-    public ArrayList<Robot> robotsAtThisNode;
-    public ArrayList<Edge> adjacentNodes;
+    public Obstacle ParentObstacle = null;
 
-    public Node(double x, double y)
+    public ArrayList<Robot> robotsAtThisNode;
+    public ArrayList<Edge> edgesList;
+
+    public Node(double x, double y, Obstacle parentObstacle)
     {
         robotsAtThisNode = new ArrayList<>();
-        adjacentNodes = new ArrayList<>();
+        edgesList = new ArrayList<>();
         coordinates = new Coordinates(x,y);
+        this.ParentObstacle = parentObstacle;
     }
 
-    public Node(double x, double y, Robot currentRobot)
+    public Node(double x, double y, Robot currentRobot, Obstacle parentObstacle)
     {
-        this(x,y);
+        this(x,y, parentObstacle);
         robotsAtThisNode.add(currentRobot);
     }
 
-    public void AddNeighbouringNode(Node node)
+  /*  public void AddNeighbouringNode(Node node)
     {
         Edge edge = new Edge(this, node);
-        adjacentNodes.add(edge);
-    }
+        edgesList.add(edge);
+    }*/
 
     public Coordinates GetCoordinates()
     {

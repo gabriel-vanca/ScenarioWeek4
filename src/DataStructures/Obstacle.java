@@ -1,34 +1,17 @@
 package DataStructures;
+import java.awt.geom.Line2D;
+import java.util.ArrayList;
 
 /**
- * Created by Gabriel on 20/02/2017.
+ * Created by Lambros on 21/02/2017.
  */
 public class Obstacle {
-/*    private ArrayList<Line2D> edgesList;
 
-    public Obstacle()
-    {
-        edgesList = new ArrayList<>();
+    public ArrayList<Node> verticesList = new ArrayList<>();
+    public ArrayList<Line2D> edgesList = new ArrayList<>();
+
+    public Obstacle(ArrayList<Node> verticesList, ArrayList<Line2D> edgesList) {
+        this.verticesList = verticesList;
+        this.edgesList = edgesList;
     }
-
-    public Line2D GetEdge(int index)
-    {
-        return edgesList.get(index);
-    }
-
-    public void AddEdge(Line2D newLine)
-    {
-        edgesList.add(newLine);
-    }
-
-    public void RemoveEdge(int index)
-    {
-        edgesList.remove(index);
-    }
-
-    public int GetNumberOfEdges()
-    {
-        return edgesList.size();
-    } */
-
 }
