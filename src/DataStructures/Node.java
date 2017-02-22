@@ -11,12 +11,12 @@ public class Node {
     private Coordinates coordinates;
 
     public ArrayList<Robot> robotsAtThisNode;
-    public ArrayList<Edge> adjacentNodes;
+    public ArrayList<Edge> edgesList;
 
     public Node(double x, double y)
     {
         robotsAtThisNode = new ArrayList<>();
-        adjacentNodes = new ArrayList<>();
+        edgesList = new ArrayList<>();
         coordinates = new Coordinates(x,y);
     }
 
@@ -29,7 +29,7 @@ public class Node {
     public void AddNeighbouringNode(Node node)
     {
         Edge edge = new Edge(this, node);
-        adjacentNodes.add(edge);
+        edgesList.add(edge);
     }
 
     public Coordinates GetCoordinates()
