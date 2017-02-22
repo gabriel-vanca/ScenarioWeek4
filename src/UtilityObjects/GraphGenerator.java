@@ -38,7 +38,7 @@ public class GraphGenerator {
 
         }
 
-        return new ArrayList<Node>();
+        return new ArrayList<Node>();2
     }
 
 }
