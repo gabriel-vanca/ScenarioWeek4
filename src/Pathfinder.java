@@ -1,10 +1,10 @@
 import DataStructures.Coordinates;
 import DataStructures.Edge;
 import DataStructures.Node;
-import DataStructures.Coordinates;
 
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -114,8 +114,8 @@ public class Pathfinder {
         Coordinates p1 = startNode.GetCoordinates();
         Coordinates p2 = targetNode.GetCoordinates();
 
-        double xDist = p2.x - p1.x;
-        double yDist = p2.y - p1.y;
+        double xDist = Math.abs(p2.x - p1.x);
+        double yDist = Math.abs(p2.y - p1.y);
 
         return xDist + yDist;
     }
