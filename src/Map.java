@@ -1,7 +1,4 @@
-import DataStructures.Coordinates;
-import DataStructures.Node;
-import DataStructures.Obstacle;
-import DataStructures.Robot;
+import DataStructures.*;
 import FileIO.InputReader;
 import UtilityObjects.NumberScanner;
 
@@ -116,6 +113,12 @@ public class Map {
             }
 
             edgesList.remove(0);
+            Line2D finalEdge = new Line2D.Double(
+                    edgesList.get(edgesList.size()-1).getX2(),
+                    edgesList.get(edgesList.size()-1).getY2(),
+                    edgesList.get(0).getX1(),
+                    edgesList.get(0).getY1());
+            edgesList.add(finalEdge);
             obstaclesList.add(newObstacle);
         }
     }
