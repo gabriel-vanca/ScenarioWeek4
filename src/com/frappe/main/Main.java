@@ -1,3 +1,5 @@
+package com.frappe.main;
+
 import DataStructures.Node;
 import FileIO.InputReader;
 
@@ -9,7 +11,7 @@ public class Main {
         InputReader inputReader = InputReader.GetInstance();
         Map map = Map.GetInstance();
         Graph graph = Graph.GetInstance();
-        Pathfinder pathfinder = new Pathfinder();
+//        com.frappe.main.Pathfinder pathfinder = new com.frappe.main.Pathfinder();
 
         //start test purposes
         map.LoadMapDataFromLine(1);
@@ -36,9 +38,9 @@ public class Main {
         }
 
 
-        ArrayList<Node> path = pathfinder.findShortestPathAStar(startNode, targetNode);
+        ArrayList<Node> path = Pathfinder.findShortestPathAStar(startNode, targetNode);
         //end test purposes
-        printNode(startNode);
+//        printNode(startNode);
         for (int i = 0; i < path.size(); i++) {
             printNode(path.get(i));
         }

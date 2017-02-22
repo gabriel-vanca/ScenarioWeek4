@@ -1,3 +1,5 @@
+package com.frappe.main;
+
 import DataStructures.*;
 import FileIO.InputReader;
 import UtilityObjects.NumberScanner;
@@ -28,7 +30,7 @@ public class Map {
 
     public void LoadMapDataFromLine(int line)  // specify the line
     {
-        //We get the Graph instance
+        //We get the com.frappe.main.Graph instance
         Graph graph = Graph.GetInstance();
 
         //We initialise the arrays
