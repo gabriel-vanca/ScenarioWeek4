@@ -4,9 +4,7 @@ import DataStructures.Coordinates;
 import DataStructures.Edge;
 import DataStructures.Node;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 import java.util.Map;
 
 /**
@@ -110,6 +108,8 @@ public class Pathfinder {
             current = cameFrom.get(current);
             totalPath.add(current);
         }
+        Collections.reverse(totalPath);
+        
         return totalPath;
     }
 
