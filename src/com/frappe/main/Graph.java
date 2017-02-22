@@ -20,6 +20,11 @@ public class Graph {
         nodesList = new ArrayList<>();
     }
 
+    public void CleanGraph()
+    {
+        nodesList = new ArrayList<>();
+    }
+
     public static Graph GetInstance() {
         if (instance == null)
             instance = new Graph();
@@ -46,6 +51,8 @@ public class Graph {
     }
 
     public void ConstructGraph() {
+
+        Map map = Map.GetInstance();
  
         for (int i=0; i<nodesList.size();i++) {
             Node currentNode = nodesList.get(i);
@@ -54,7 +61,8 @@ public class Graph {
 
                 if (currentNode.ParentObstacle != null
                         &&
-                        currentNode.ParentObstacle == alternativeNode.ParentObstacle)
+                        currentNode.ParentObstacle == alternativeNode.ParentObstacle
+                        )
                     continue;
 
                 Line2D newLine = buildLineBetweenNodes(currentNode, alternativeNode);
@@ -64,6 +72,20 @@ public class Graph {
                 }
             }
         }
+
+        for(Obstacle currentObstacle : map.obstaclesList)
+        {
+            for(int i=0; i< currentObstacle.verticesList.size() - 1; i++)
+            {
+                Line2D newLine = buildLineBetweenNodes(currentObstacle.verticesList.get(i), currentObstacle.verticesList.get(i+1));
+                buildEdgeBetweenNodes(currentObstacle.verticesList.get(i), currentObstacle.verticesList.get(i+1), newLine);
+            }
+
+            Line2D newLine = buildLineBetweenNodes(currentObstacle.verticesList.get(0), currentObstacle.verticesList.get(currentObstacle.verticesList.size()-1));
+            buildEdgeBetweenNodes(currentObstacle.verticesList.get(0), currentObstacle.verticesList.get(currentObstacle.verticesList.size()-1), newLine);
+
+        }
+
     }
 
     private Boolean isIntersectingAnyObstacle(Line2D currentLine) {

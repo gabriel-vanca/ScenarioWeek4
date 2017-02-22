@@ -22,6 +22,8 @@ public class Map {
     private Map() {
     }
 
+
+
     public static Map GetInstance() {
         if (instance == null)
             instance = new Map();
@@ -32,6 +34,7 @@ public class Map {
     {
         //We get the com.frappe.main.Graph instance
         Graph graph = Graph.GetInstance();
+        graph.CleanGraph();
 
         //We initialise the arrays
         RobotsList = new ArrayList<>();
@@ -108,6 +111,7 @@ public class Map {
                 if (!edgesList.isEmpty()) {
                     Line2D lastLine = edgesList.get(edgesList.size() - 1);
                     newLine = new Line2D.Double(lastLine.getX2(), lastLine.getY2(), x, y);
+
                 } else {
                     newLine = new Line2D.Double(x, y, x, y);
                 }
