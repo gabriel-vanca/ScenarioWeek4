@@ -7,9 +7,11 @@ import java.util.ArrayList;
  */
 public class Obstacle {
 
+    public ArrayList<Node> verticesList = new ArrayList<>();
     public ArrayList<Line2D> edgesList = new ArrayList<>();
 
-    public Obstacle(ArrayList<Line2D> edgesList) {
+    public Obstacle(ArrayList<Node> verticesList, ArrayList<Line2D> edgesList) {
+        this.verticesList = verticesList;
         this.edgesList = edgesList;
     }
 }

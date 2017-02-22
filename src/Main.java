@@ -9,7 +9,7 @@ public class Main {
         Graph graph = Graph.GetInstance();
 
         //start test purposes
-        map.LoadMapDataFromLine(2);
+        map.LoadMapDataFromLine(3);
         graph.ConstructGraph();
         //end test purposes
 

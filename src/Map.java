@@ -72,7 +72,7 @@ public class Map {
             double y = scannerObj.GetNextDouble();
             Robot currentRobot = new Robot(new Coordinates(x, y));
             RobotsList.add(currentRobot);
-            Node node = new Node(x,y,currentRobot);
+            Node node = new Node(x,y,currentRobot, null);
             graph.AddNode(node);
         }
 
@@ -88,12 +88,9 @@ public class Map {
         //We parse through each of the relevant polygon Strings
         for (String polygonDataString : polygonsDataStringSplit) {
 
-            //Line2D tempLineToRemove = new Line2D.Double(0,0,0,0);
-
-            //obstaclesList.add(tempLineToRemove);
-
-            ///ArrayList<Coordinates> verticesList = new ArrayList<>();
+            ArrayList<Node> verticesList = new ArrayList<>();
             ArrayList<Line2D> edgesList = new ArrayList<>();
+            Obstacle newObstacle = new Obstacle(verticesList, edgesList);
 
             /*We initilise a new NumberScanner for each of the relevant Strings
               and then we get each vertex of the obstacles.
@@ -104,11 +101,12 @@ public class Map {
                 double x = scannerObj.GetNextDouble();
                 double y = scannerObj.GetNextDouble();
 
-                Node node = new Node(x,y);
+                Node node = new Node(x,y, newObstacle);
                 graph.AddNode(node);
+                verticesList.add(node);
 
                 Line2D newLine;
-                if (edgesList.isEmpty()) {
+                if (!edgesList.isEmpty()) {
                     Line2D lastLine = edgesList.get(edgesList.size() - 1);
                     newLine = new Line2D.Double(lastLine.getX2(), lastLine.getY2(), x, y);
                 } else {
@@ -118,7 +116,6 @@ public class Map {
             }
 
             edgesList.remove(0);
-            Obstacle newObstacle = new Obstacle(edgesList);
             obstaclesList.add(newObstacle);
         }
     }
