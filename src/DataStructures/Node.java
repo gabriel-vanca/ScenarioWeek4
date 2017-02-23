@@ -1,5 +1,7 @@
 package DataStructures;
 
+import com.frappe.main.Path;
+
 import java.util.ArrayList;
 
 /**
@@ -36,6 +38,21 @@ public class Node {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public void moveAnyRobot(Node node, Path path) {
+        if (this.robotsAtThisNode.size() > 0) {
+
+            // Add to this Robot's path
+            this.robotsAtThisNode.get(0).addPath(path, path.getLength());
+
+            // Set order of the robot.
+
+
+            node.addRobot(this.robotsAtThisNode.get(0));
+            this.robotsAtThisNode.remove(0);
+//            System.out.println("Moved robot");
         }
     }
 
