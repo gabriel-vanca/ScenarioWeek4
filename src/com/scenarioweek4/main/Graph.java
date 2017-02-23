@@ -46,7 +46,7 @@ public class Graph {
     {
         Edge newEdge = new Edge(node1, node2, line2D);
         node1.edgesList.add(newEdge);
-        newEdge = new Edge(node2, node1, line2D);
+        newEdge = new Edge(node2, node1, new Line2D.Double(line2D.getP2(), line2D.getP1()));
         node2.edgesList.add(newEdge);
     }
 
@@ -61,7 +61,7 @@ public class Graph {
 //
 //                Line2D newLine = buildLineBetweenNodes(currentNode, alternativeNode);
 //
-//                if (!isLineIntersectingAnyObstacle(newLine, currentNode, alternativeNode)) {
+//                if (!isLineIntersectingAnyObstacleExceptItsParent(newLine, currentNode, alternativeNode)) {
 //                    buildEdgeBetweenNodes(currentNode, alternativeNode, newLine);
 //                }
 //            }
@@ -86,7 +86,7 @@ public class Graph {
 
         Map map = Map.GetInstance();
 
-        //Add edges between Robots and Obstacles, but not between two vertexes on the same obstacle
+        //Add edges between Robots and Obstacles, but not between two vertices of the same obstacle
         for (int i=0; i<nodesList.size();i++) {
             Node currentNode = nodesList.get(i);
             for (int j = i + 1; j < nodesList.size(); j++) {
@@ -100,36 +100,34 @@ public class Graph {
 
                 Line2D newLine = buildLineBetweenNodes(currentNode, alternativeNode);
 
-                if (!isLineIntersectingAnyObstacleEdge(newLine)) {
+                if (!isLineIntersectingAnyObstacleEdge(newLine) /*&& !isLineIntersectingAnyObstacleExceptItsParent(newLine, currentNode.ParentObstacle)*/) {
                     buildEdgeBetweenNodes(currentNode, alternativeNode, newLine);
                 }
             }
         }
 
+        //Add edges between compatible vertices of the same obstacle
         for(Obstacle currentObstacle : map.obstaclesList)
         {
-            Line2D newLine;
-
-            for (int i=0; i< currentObstacle.verticesList.size() - 1; i++)
+            for (int i=0; i<currentObstacle.verticesList.size() - 1; i++)
             {
                 Node currentNode = currentObstacle.verticesList.get(i);
                 Node alternativeNode; //= currentObstacle.verticesList.get(i+1);
 
-                //Adding edges between adjacent vertexes of the obstacle
-              /*  newLine = buildLineBetweenNodes(currentNode, alternativeNode);
-                buildEdgeBetweenNodes(currentNode, alternativeNode, newLine);
-*/
-                for (int j=i+1; j< currentObstacle.verticesList.size() ; j++)
+                for (int j=i+1; j<currentObstacle.verticesList.size() ; j++)
                 {
                     alternativeNode = currentObstacle.verticesList.get(j);
 
-                    newLine = buildLineBetweenNodes(currentNode, alternativeNode);
-                    //if(!isLineIntersectingAnyObstacle(newLine))
-                    if(canBuildEdgeBetweenTwoObstacleVertices(i,j,currentObstacle))
+                    Line2D newLine = buildLineBetweenNodes(currentNode, alternativeNode);
+                    //if(!isLineIntersectingAnyObstacleExceptItsParent(newLine))
+                    if(canBuildEdgeBetweenTwoObstacleVertices(i,j,currentObstacle, newLine))
                         buildEdgeBetweenNodes(currentNode, alternativeNode, newLine);
                 }
             }
 
+            //Adding edges between adjacent vertexes of the obstacle
+              /*  newLine = buildLineBetweenNodes(currentNode, alternativeNode);
+                buildEdgeBetweenNodes(currentNode, alternativeNode, newLine); */
            /* newLine = buildLineBetweenNodes(currentObstacle.verticesList.get(0), currentObstacle.verticesList.get(currentObstacle.verticesList.size()-1));
             buildEdgeBetweenNodes(currentObstacle.verticesList.get(0), currentObstacle.verticesList.get(currentObstacle.verticesList.size()-1), newLine);*/
         }
@@ -140,18 +138,31 @@ public class Graph {
         Map map = Map.GetInstance();
 
         for (Obstacle currentObstacle : map.obstaclesList) {
-            for (Line2D currentObstacleEdge : currentObstacle.edgesList)
-            {
-                if (currentLine.getP1().distance(currentObstacleEdge.getP1()) == 0
-                        ||
-                        currentLine.getP1().distance(currentObstacleEdge.getP2()) == 0
-                        ||
-                        currentLine.getP2().distance(currentObstacleEdge.getP1()) == 0
-                        ||
-                        currentLine.getP2().distance(currentObstacleEdge.getP2()) == 0)
+            for (Line2D currentObstacleEdge : currentObstacle.edgesList) {
+                if (
+                        DoubleEqual(currentLine.getP1().distance(currentObstacleEdge.getP1()), 0)
+                                ||
+                                DoubleEqual(currentLine.getP1().distance(currentObstacleEdge.getP2()), 0)
+                                ||
+                                DoubleEqual(currentLine.getP2().distance(currentObstacleEdge.getP1()), 0)
+                                ||
+                                DoubleEqual(currentLine.getP2().distance(currentObstacleEdge.getP2()), 0)
+                        )
                     continue;
 
-                if (currentLine.intersectsLine(currentObstacleEdge))
+                double angle = angleBetweenTwoLines(currentLine, currentObstacleEdge);
+
+                if (currentLine.intersectsLine(currentObstacleEdge)
+                        &&
+                        (!
+                                (DoubleEqual(angle, 0)
+                                        ||
+                                        DoubleEqual(angle, 180)
+                                        ||
+                                        DoubleEqual(angle, -180)
+                                )
+                        )
+                        )
                     return true;
             }
         }
@@ -164,11 +175,13 @@ public class Graph {
         return currentObstacle.polygonShape.intersects(currentLine.getBounds());
     }
 
-    private Boolean isLineIntersectingAnyObstacle(Line2D currentLine)
+    private Boolean isLineIntersectingAnyObstacleExceptItsParent(Line2D currentLine, Obstacle parentObstacle)
     {
         Map map = Map.GetInstance();
 
         for (Obstacle currentObstacle:map.obstaclesList) {
+            if(parentObstacle != null && parentObstacle.equals(currentObstacle))
+                continue;
             if(isLineIntersectingObstacle(currentLine, currentObstacle))
                 return true;
         }
@@ -179,27 +192,44 @@ public class Graph {
     {
         double area = 0.0;
 
-        for(int i=1; i<nodesList.size();i++)
+        for(int i=0; i<nodesList.size()-1;i++)
         {
-            area += nodesList.get(i).GetCoordinates().x * nodesList.get(i-1).GetCoordinates().y
+            area += nodesList.get(i).GetCoordinates().x * nodesList.get(i+1).GetCoordinates().y
                     -
-                    nodesList.get(i-1).GetCoordinates().x * nodesList.get(i).GetCoordinates().y;
+                    nodesList.get(i+1).GetCoordinates().x * nodesList.get(i).GetCoordinates().y;
         }
 
-        area += nodesList.get(0).GetCoordinates().x * nodesList.get(nodesList.size()-1).GetCoordinates().y
+        area += nodesList.get(nodesList.size()-1).GetCoordinates().x * nodesList.get(0).GetCoordinates().y
                 -
-                nodesList.get(nodesList.size()-1).GetCoordinates().x * nodesList.get(0).GetCoordinates().y;
+                nodesList.get(0).GetCoordinates().x * nodesList.get(nodesList.size()-1).GetCoordinates().y;
 
         return area/2.0;
     }
 
     public static Boolean DoubleEqual(double d1, double d2)
     {
-        return Math.abs(d1-d2) - 0.00001 < 0;
+        return (Math.abs(d1-d2) - 0.00001) < 0;
     }
 
-    private Boolean canBuildEdgeBetweenTwoObstacleVertices(int posNode1, int posNode2, Obstacle currentObstacle)
+    public static double angleBetweenTwoLines(Line2D line1, Line2D line2)
     {
+        double angle1 = Math.atan2(line1.getY1() - line1.getY2(),
+                line1.getX1() - line1.getX2());
+        double angle2 = Math.atan2(line2.getY1() - line2.getY2(),
+                line2.getX1() - line2.getX2());
+        return angle1-angle2;
+    }
+
+    private Boolean canBuildEdgeBetweenTwoObstacleVertices(int posNode1, int posNode2, Obstacle currentObstacle, Line2D newLine)
+    {
+        if(posNode1 + 1 == posNode2)
+            return true;
+
+        //Step 1: Check against all the other obstacles
+        if(isLineIntersectingAnyObstacleExceptItsParent(newLine, currentObstacle))
+            return false;
+
+        //Step 2: Divide polygon in 2 and see if the areas add up. If they do, then the line is inside the polygon
         ArrayList<Node> nodesList1 = new ArrayList<>();
         ArrayList<Node> nodesList2 = new ArrayList<>();
 
@@ -213,9 +243,9 @@ public class Graph {
         if(nodesList1.size() <= 2 || nodesList2.size() <= 2)
             return true;
 
-        double totalArea = getAreaOfPolygon(currentObstacle.verticesList);
-        double area1 = getAreaOfPolygon(nodesList1);
-        double area2 = getAreaOfPolygon(nodesList2);
+        double totalArea = Math.abs(getAreaOfPolygon(currentObstacle.verticesList));
+        double area1 = Math.abs(getAreaOfPolygon(nodesList1));
+        double area2 = Math.abs(getAreaOfPolygon(nodesList2));
 
         return !DoubleEqual(totalArea, area1+area2);
     }

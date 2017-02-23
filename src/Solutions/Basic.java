@@ -52,6 +52,7 @@ public class Basic {
             for (int i = 1; i <= 3; i++)
                 sb.deleteCharAt(sb.length() - 1);
             System.out.println(sb.toString());
+
         }
 
 
