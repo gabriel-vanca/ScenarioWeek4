@@ -1,18 +1,20 @@
+package com.frappe.main;
+
 import DataStructures.Coordinates;
 import DataStructures.Edge;
 import DataStructures.Node;
-import DataStructures.Coordinates;
 
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
- * Created by kelv on 22/02/17.
+ * Created by kelv on 22/02/17.Your branch is ahead of 'origin/kelvin' by
  */
 public class Pathfinder {
 
-    public ArrayList<Node> findShortestPathAStar(Node startNode, Node targetNode) {
+    public  ArrayList<Node> findShortestPathAStar(Node startNode, Node targetNode) {
         // Get initial state of the graph.
         Graph graph = Graph.GetInstance();
 
@@ -27,7 +29,7 @@ public class Pathfinder {
         HashMap<Node, Node> cameFrom = new HashMap<>();
 
 
-        // Map containing default value of Inf.
+        // com.frappe.main.Map containing default value of Inf.
         // Add all nodes into here.
         HashMap<Node, Double> gScore = new HashMap<>();
 
@@ -59,7 +61,7 @@ public class Pathfinder {
                 Node node = entry.getKey();
                 double value = entry.getValue();
 
-                if (value < lowestValue) {
+                if (value < lowestValue && openSet.contains(node)) {
                     current = node;
                     lowestValue = value;
                 }
@@ -89,6 +91,7 @@ public class Pathfinder {
 
                 // Save best score.
 //                cameFrom
+                cameFrom.put(neighbour, current);
                 gScore.replace(neighbour, tentativeGScore);
                 fScore.replace(neighbour, gScore.get(neighbour) + heuristicCostEstimate(neighbour, targetNode));
 
@@ -99,7 +102,7 @@ public class Pathfinder {
     }
 
     //    private void reconstructPath(ArrayList<Node> cameFrom, Node current) {
-    private ArrayList<Node> reconstructPath(HashMap<Node, Node> cameFrom, Node current) {
+    private  ArrayList<Node> reconstructPath(HashMap<Node, Node> cameFrom, Node current) {
         ArrayList<Node> totalPath = new ArrayList<>();
         totalPath.add(current);
 
@@ -110,17 +113,19 @@ public class Pathfinder {
         return totalPath;
     }
 
-    private double heuristicCostEstimate(Node startNode, Node targetNode) {
+    private  double heuristicCostEstimate(Node startNode, Node targetNode) {
         Coordinates p1 = startNode.GetCoordinates();
         Coordinates p2 = targetNode.GetCoordinates();
 
-        double xDist = p2.x - p1.x;
-        double yDist = p2.y - p1.y;
+        double xDist = Math.abs(p2.x - p1.x);
+        double yDist = Math.abs(p2.y - p1.y);
 
         return xDist + yDist;
+//        return 0;
     }
 
-    private double distanceBetween(Node startNode, Node targetNode) {
+
+    private  double distanceBetween(Node startNode, Node targetNode) {
         Coordinates p1 = startNode.GetCoordinates();
         Coordinates p2 = targetNode.GetCoordinates();
 

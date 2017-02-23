@@ -1,3 +1,5 @@
+package com.frappe.main;
+
 import DataStructures.Edge;
 import DataStructures.Node;
 import DataStructures.Obstacle;
