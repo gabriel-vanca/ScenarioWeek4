@@ -1,5 +1,6 @@
 package com.frappe.main;
 
+import DataStructures.Coordinates;
 import DataStructures.Node;
 import FileIO.InputReader;
 import Solutions.Basic;
@@ -24,7 +25,8 @@ public class Main {
            // b.runBasic();
             ExplosivePathing explosivePathing = new ExplosivePathing();
             ArrayList<Path> superPaths =  explosivePathing.generateSolution();
-            System.out.println("");
+            printShit(superPaths);
+//            System.out.println("");
         }
 
 
@@ -74,6 +76,22 @@ public class Main {
 
 
 
+    }
+
+    private static void printShit(ArrayList<Path> result) {
+        String string = "";
+        for (int i=0; i<result.size();i++) {
+            for (int j=0; j<result.get(i).getPath().size();j++){
+                Coordinates coord = result.get(i).getPath().get(j).GetCoordinates();
+                string += "(" + coord.x + ", " + coord.y +")";
+
+                if (j != result.get(i).getPath().size() - 1) {
+                    string += ", ";
+                }
+            }
+            string += ";";
+        }
+        System.out.println(string);
     }
 
     private static void printNode(Node node) {
