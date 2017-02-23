@@ -1,6 +1,8 @@
 package com.scenarioweek4.main;
 
+import DataStructures.Coordinates;
 import DataStructures.Node;
+import DataStructures.Path;
 import FileIO.InputReader;
 import FileIO.OutputWriter;
 
@@ -24,47 +26,36 @@ public class Main {
 
             ArrayList<Node> nodesWithRobots = new ArrayList<>();
             ArrayList<Node> solutionNodes = new ArrayList<>();
-            StringBuilder sb = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder();
 
-            sb.append(line + ": ");
+            stringBuilder.append(line + ": ");
 
-            //Look for robot nodes
-            for (Node n : graph.nodesList) {
-                if (!n.robotsAtThisNode.isEmpty()) {
-                    nodesWithRobots.add(n);
-                }
+
+            ExplosivePathing explosivePathing = new ExplosivePathing();
+            ArrayList<Path> superPaths = explosivePathing.generateSolution();
+            if (superPaths == null) {
+                continue;
             }
+            printShit(superPaths, stringBuilder);
 
-            //Get path to every robot
-            for (int i = 0; i < nodesWithRobots.size() - 1; i++) {
-                if (!solutionNodes.isEmpty()) {
-                    solutionNodes.remove(solutionNodes.size() - 1);
-                }
-
-                ArrayList<Node> path = pathfinder.findShortestPathAStar(nodesWithRobots.get(i), nodesWithRobots.get(i + 1));
-
-                if (path == null) {
-                    continue;
-                }
-
-                solutionNodes.addAll(path);
-            }
-
-            //Construct response string
-            if (!solutionNodes.isEmpty()) {
-                for (Node n : solutionNodes) {
-                    sb.append("(" + n.GetCoordinates().x + ", " + n.GetCoordinates().y + ") , ");
-                }
-
-                for (int i = 1; i <= 3; i++)
-                    sb.deleteCharAt(sb.length() - 1);
-
-                //Display to console and write to file
-                System.out.println(sb);
-                outputWriter.writeToFile(sb.toString());
-            }
+            //Display to console and write to file
+            System.out.println(stringBuilder);
+            outputWriter.writeToFile(stringBuilder.toString());
         }
-
         outputWriter.CloseWriter();
+    }
+
+    private static void printShit(ArrayList<Path> result, StringBuilder stringBuilder) {
+        for (int i = 0; i < result.size(); i++) {
+            for (int j = 0; j < result.get(i).getPath().size(); j++) {
+                Coordinates coord = result.get(i).getPath().get(j).GetCoordinates();
+                stringBuilder.append("(" + coord.x + ", " + coord.y + ")");
+
+                if (j != result.get(i).getPath().size() - 1) {
+                    stringBuilder.append(", ");
+                }
+            }
+            stringBuilder.append(";");
+        }
     }
 }
