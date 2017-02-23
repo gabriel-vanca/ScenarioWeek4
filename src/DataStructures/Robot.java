@@ -1,5 +1,7 @@
 package DataStructures;
 
+import com.frappe.main.Path;
+
 import java.util.ArrayList;
 
 /**
@@ -9,12 +11,13 @@ public class Robot {
     private Coordinates robotPosition;
     private boolean isAwake;
     private int order;
-    private ArrayList<Node> pathTraversed;
+    private Path pathTraversed;
 
     public Robot(Coordinates coordinates) {
         SetCoordinates(coordinates);
         this.isAwake = false;
-        this.pathTraversed = new ArrayList<>();
+        this.pathTraversed = null;
+//        this.pathTraversed;
         this.order = -1;
     }
 
@@ -42,18 +45,21 @@ public class Robot {
         this.order = order;
     }
 
-    public void addPath(ArrayList<Node> path) {
-        int pathTraversedSize = this.pathTraversed.size();
-
-
-        if (this.pathTraversed.get(pathTraversedSize - 1) == path.get(0)) {
-            path.remove(0);
+    public void addPath(Path path, Double length) {
+//        int pathTraversedSize = this.pathTraversed.size();
+        if (this.pathTraversed == null) {
+            this.pathTraversed = new Path(path.getPath(), length);
         }
 
-        this.pathTraversed.addAll(path);
+        if (this.pathTraversed.getDestination() == path.getPath().get(0)) {
+            ArrayList<Node> additionalPath = new ArrayList<>(path.getPath());
+            additionalPath.remove(0);
+            this.pathTraversed.extendPath(additionalPath);
+        }
+
     }
 
-    public ArrayList<Node> getPathTraversed() {
+    public Path getPathTraversed() {
         return this.pathTraversed;
     }
 }

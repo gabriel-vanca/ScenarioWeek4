@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class Pathfinder {
 
-    public ArrayList<Node> findShortestPathAStar(Node startNode, Node targetNode) {
+    public Path findShortestPathAStar(Node startNode, Node targetNode) {
         // Get initial state of the graph.
         Graph graph = Graph.GetInstance();
 
@@ -66,7 +66,10 @@ public class Pathfinder {
             }
 
             if (current == targetNode) {
-                return reconstructPath(cameFrom, current);
+                ArrayList<Node> pathList = reconstructPath(cameFrom, current);
+                Double length = calculateLengthOfPath(pathList);
+
+                return new Path(pathList, length);
             }
 
             openSet.remove(current);

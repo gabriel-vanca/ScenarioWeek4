@@ -3,10 +3,13 @@ package Solutions;
 import DataStructures.Node;
 import DataStructures.Robot;
 import com.frappe.main.Graph;
+import com.frappe.main.Path;
 import com.frappe.main.Pathfinder;
 
 import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 /**
@@ -76,18 +79,19 @@ public class ExplosivePathing {
         return robots;
     }
 
-    public ArrayList<ArrayList<Node>> generateSolution() {
+    public ArrayList<Path> generateSolution() {
 
         ArrayList<Node> visited = new ArrayList<>();
         ArrayList<Node> nodesWithRobots = new ArrayList<>();
+        ArrayList<Node> nodesWithActiveRobots = new ArrayList<>();
         ArrayList<Robot> robotList = buildRobotList();
         ArrayList<Robot> sleepingRobotsList = buildRobotList();
-        ArrayList<ArrayList<Node>> allPaths = new ArrayList<>();
+        ArrayList<Path> allPaths = new ArrayList<>();
 
         int order = 0;
 
 
-        // First, populate the array of Nodes with robots.
+        // First, populate the array with Nodes with robots.
 
         for (Node node : this.nodes) {
             if (node.robotsAtThisNode.size() == 1) {
@@ -95,44 +99,63 @@ public class ExplosivePathing {
             }
         }
 
+        nodesWithActiveRobots.add(nodesWithRobots.get(0));
+
 
         // While we still have sleeping robots, keep looping to try to wake it.
         while (!sleepingRobotsList.isEmpty()) {
 
             // Get first node with an active robot.
-            Node currentNode = nodesWithRobots.get(0);
-            nodesWithRobots.remove(currentNode);
+            Node currentNode = nodesWithActiveRobots.get(0);
+//            nodesWithActiveRobots.remove(currentNode);
 
+            currentNode.wakeRobots();
 
-            ArrayList<ArrayList<Node>> calculatedPaths = new ArrayList<>();
+            ArrayList<Path> calculatedPaths = new ArrayList<>();
 
             // Iterate through all nodes with robots.
             for (Node node : nodesWithRobots) {
-
+                if (currentNode == node) {
+                    continue;
+                }
                 // If robot is sleeping, find a path to it
 
-                ArrayList<Node> pathToNode = pathfinder.findShortestPathAStar(currentNode, node);
+                Path pathToNode = pathfinder.findShortestPathAStar(currentNode, node);
                 calculatedPaths.add(pathToNode);
 
             }
 
 
             // Sort list of possible paths for this node
-            calculatedPaths = sortAscLength(calculatedPaths);
-
+//            calculatedPaths = sortAscLength(calculatedPaths);
+            Collections.sort(calculatedPaths, new Comparator<Path>() {
+                @Override
+                public int compare(Path o1, Path o2) {
+                    return o1.getLength().compareTo(o2.getLength());
+                }
+            });
 
             // Select the shortest path for each active robot
-            for (Robot robot : currentNode.robotsAtThisNode) {
+            boolean continueToMove = true;
+            while (continueToMove) {
 
-                ArrayList<Node> shortestPath;
+                if (currentNode.robotsAtThisNode.size() == 0) {
+                    nodesWithActiveRobots.remove((currentNode));
+                    break;
+                }
+
+                Robot robot =currentNode.robotsAtThisNode.get(0);
+//                ArrayList<Node> shortestPath;
+                Path shortestPath;
 
                 // If robot is awake, move it down one of the shortest paths.
                 if (!calculatedPaths.isEmpty()) {
+
                     shortestPath = calculatedPaths.get(0);
                     calculatedPaths.remove(shortestPath);
 
                     if (robot.isAwake()) {
-                        Node destNode = shortestPath.get(shortestPath.size() - 1);
+                        Node destNode = shortestPath.getDestination();
 
                         // Set robot order and increment
                         if (robot.getOrder() == -1) {
@@ -141,10 +164,14 @@ public class ExplosivePathing {
                         }
 
                         currentNode.moveRobot(robot, destNode);
-                        robot.addPath(shortestPath);
+                        robot.addPath(shortestPath, pathfinder.calculateLengthOfPath(shortestPath.getPath()));
                         destNode.wakeRobots();
 
-                        sleepingRobotsList.removeAll(destNode.robotsAtThisNode);
+//                        nodesWithRobots.add(destNode);
+                        sleepingRobotsList.remove(robot);
+                        nodesWithActiveRobots.add(destNode);
+
+                        int asd = 1;
 
                     }
                 }
@@ -152,9 +179,9 @@ public class ExplosivePathing {
             }
 
         }
-
+        int count = 0;
         while (!robotList.isEmpty()) {
-            int count = 0;
+
 
             for (Robot robot: robotList) {
                 if (robot.getOrder() == count ) {

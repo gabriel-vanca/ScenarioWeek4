@@ -35,11 +35,11 @@ public class Basic {
             }
             //solutionNodes.addAll
 
-            ArrayList<Node> temp = pathfinder.findShortestPathAStar(nodesWithRobots.get(i), nodesWithRobots.get(i + 1));
+//            ArrayList<Node> temp = pathfinder.findShortestPathAStar(nodesWithRobots.get(i), nodesWithRobots.get(i + 1));
 
-            for (Node tempV : temp) {
-                solutionNodes.add(tempV);
-            }
+//            for (Node tempV : temp) {
+//                solutionNodes.add(tempV);
+//            }
 
         }
 
@@ -48,8 +48,8 @@ public class Basic {
             sb.append("(" + n.GetCoordinates().x + ", " + n.GetCoordinates().y + ") , ");
         }
 
-        for (int i = 1; i <= 3; i++)
-            sb.deleteCharAt(sb.length()-1<);
+//        for (int i = 1; i <= 3; i++)
+//            sb.deleteCharAt(sb.length()-1<);
         System.out.println(sb.toString());
 
 

@@ -23,7 +23,7 @@ public class Main {
 //            Basic b = new Basic();
            // b.runBasic();
             ExplosivePathing explosivePathing = new ExplosivePathing();
-            ArrayList<ArrayList<Node>> superPaths =  explosivePathing.generateSolution();
+            ArrayList<Path> superPaths =  explosivePathing.generateSolution();
             System.out.println("");
         }
 

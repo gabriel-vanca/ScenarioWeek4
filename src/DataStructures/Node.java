@@ -31,6 +31,7 @@ public class Node {
 
     public boolean moveRobot(Robot robot, Node node) {
         if (this.robotsAtThisNode.contains(robot)) {
+            this.robotsAtThisNode.remove(robot);
             node.addRobot(robot);
             return true;
         } else {
