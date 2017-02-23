@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class Pathfinder {
 
-    public  ArrayList<Node> findShortestPathAStar(Node startNode, Node targetNode) {
+    public ArrayList<Node> findShortestPathAStar(Node startNode, Node targetNode) {
         // Get initial state of the graph.
         Graph graph = Graph.GetInstance();
 
@@ -99,8 +99,27 @@ public class Pathfinder {
         return null;
     }
 
+    public double calculateLengthOfPath(ArrayList<Node> path) {
+
+
+        double distance = 0;
+
+        for (int i = 1; i < path.size(); i++) {
+            Coordinates startNodeCoord = path.get(i - 1).GetCoordinates();
+            Coordinates targetNodeCoord = path.get(i).GetCoordinates();
+            double xDist = targetNodeCoord.x - startNodeCoord.x;
+            double yDist = targetNodeCoord.y - startNodeCoord.y;
+
+            distance += Math.sqrt(xDist * xDist + yDist * yDist);
+
+        }
+
+        return distance;
+    }
+
+
     //    private void reconstructPath(ArrayList<Node> cameFrom, Node current) {
-    private  ArrayList<Node> reconstructPath(HashMap<Node, Node> cameFrom, Node current) {
+    private ArrayList<Node> reconstructPath(HashMap<Node, Node> cameFrom, Node current) {
         ArrayList<Node> totalPath = new ArrayList<>();
         totalPath.add(current);
 
@@ -109,11 +128,11 @@ public class Pathfinder {
             totalPath.add(current);
         }
         Collections.reverse(totalPath);
-        
+
         return totalPath;
     }
 
-    private  double heuristicCostEstimate(Node startNode, Node targetNode) {
+    private double heuristicCostEstimate(Node startNode, Node targetNode) {
         Coordinates p1 = startNode.GetCoordinates();
         Coordinates p2 = targetNode.GetCoordinates();
 
@@ -125,7 +144,7 @@ public class Pathfinder {
     }
 
 
-    private  double distanceBetween(Node startNode, Node targetNode) {
+    private double distanceBetween(Node startNode, Node targetNode) {
         Coordinates p1 = startNode.GetCoordinates();
         Coordinates p2 = targetNode.GetCoordinates();
 
