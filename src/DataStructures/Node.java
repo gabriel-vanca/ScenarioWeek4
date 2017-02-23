@@ -41,6 +41,15 @@ public class Node {
     private void addRobot(Robot robot) {
         this.robotsAtThisNode.add(robot);
     }
+
+    public void wakeRobots() {
+        for (Robot robot: this.robotsAtThisNode) {
+            robot.wake();
+        }
+    }
+
+//    public ArrayList<Robot> getRr
+
   /*  public void AddNeighbouringNode(Node node)
     {
         Edge edge = new Edge(this, node);

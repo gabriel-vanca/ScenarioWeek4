@@ -20,8 +20,7 @@ public class Graph {
         nodesList = new ArrayList<>();
     }
 
-    public void CleanGraph()
-    {
+    public void CleanGraph() {
         nodesList = new ArrayList<>();
     }
 
@@ -42,8 +41,7 @@ public class Graph {
                 node2.GetCoordinates().y);
     }
 
-    private void buildEdgeBetweenNodes(Node node1, Node node2, Line2D line2D)
-    {
+    private void buildEdgeBetweenNodes(Node node1, Node node2, Line2D line2D) {
         Edge newEdge = new Edge(node1, node2, line2D);
         node1.edgesList.add(newEdge);
         newEdge = new Edge(node2, node1, line2D);
@@ -53,8 +51,8 @@ public class Graph {
     public void ConstructGraph() {
 
         Map map = Map.GetInstance();
- 
-        for (int i=0; i<nodesList.size();i++) {
+
+        for (int i = 0; i < nodesList.size(); i++) {
             Node currentNode = nodesList.get(i);
             for (int j = i + 1; j < nodesList.size(); j++) {
                 Node alternativeNode = nodesList.get(j);
@@ -73,16 +71,14 @@ public class Graph {
             }
         }
 
-        for(Obstacle currentObstacle : map.obstaclesList)
-        {
-            for(int i=0; i< currentObstacle.verticesList.size() - 1; i++)
-            {
-                Line2D newLine = buildLineBetweenNodes(currentObstacle.verticesList.get(i), currentObstacle.verticesList.get(i+1));
-                buildEdgeBetweenNodes(currentObstacle.verticesList.get(i), currentObstacle.verticesList.get(i+1), newLine);
+        for (Obstacle currentObstacle : map.obstaclesList) {
+            for (int i = 0; i < currentObstacle.verticesList.size() - 1; i++) {
+                Line2D newLine = buildLineBetweenNodes(currentObstacle.verticesList.get(i), currentObstacle.verticesList.get(i + 1));
+                buildEdgeBetweenNodes(currentObstacle.verticesList.get(i), currentObstacle.verticesList.get(i + 1), newLine);
             }
 
-            Line2D newLine = buildLineBetweenNodes(currentObstacle.verticesList.get(0), currentObstacle.verticesList.get(currentObstacle.verticesList.size()-1));
-            buildEdgeBetweenNodes(currentObstacle.verticesList.get(0), currentObstacle.verticesList.get(currentObstacle.verticesList.size()-1), newLine);
+            Line2D newLine = buildLineBetweenNodes(currentObstacle.verticesList.get(0), currentObstacle.verticesList.get(currentObstacle.verticesList.size() - 1));
+            buildEdgeBetweenNodes(currentObstacle.verticesList.get(0), currentObstacle.verticesList.get(currentObstacle.verticesList.size() - 1), newLine);
 
         }
 

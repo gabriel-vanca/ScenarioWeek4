@@ -3,6 +3,7 @@ package com.frappe.main;
 import DataStructures.Node;
 import FileIO.InputReader;
 import Solutions.Basic;
+import Solutions.ExplosivePathing;
 
 import java.util.ArrayList;
 
@@ -14,14 +15,23 @@ public class Main {
         Graph graph = Graph.GetInstance();
         com.frappe.main.Pathfinder pathfinder = new com.frappe.main.Pathfinder();
 
-        //start test purposes
+//        start test purposes
         for(int i=1; i<=inputReader.GetNumberOfLine();i++) {
             map.LoadMapDataFromLine(i);
             graph.ConstructGraph();
             System.out.print(i + ": ");
-            Basic b = new Basic();
+//            Basic b = new Basic();
            // b.runBasic();
+            ExplosivePathing explosivePathing = new ExplosivePathing();
+            ArrayList<ArrayList<Node>> superPaths =  explosivePathing.generateSolution();
+            System.out.println("");
         }
+
+
+
+
+
+
 
 //        Node startNode = null;
 //        Node targetNode = null;
