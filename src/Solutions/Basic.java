@@ -1,13 +1,10 @@
 package Solutions;
 
 import DataStructures.Node;
-import com.frappe.main.Graph;
-import com.frappe.main.Pathfinder;
+import com.scenarioweek4.main.Graph;
+import com.scenarioweek4.main.Pathfinder;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 /**
  * Created by bad guy kelv on 22/02/17.
@@ -37,20 +34,25 @@ public class Basic {
 
             ArrayList<Node> temp = pathfinder.findShortestPathAStar(nodesWithRobots.get(i), nodesWithRobots.get(i + 1));
 
+            if (temp == null) {
+                continue;
+            }
+
             for (Node tempV : temp) {
                 solutionNodes.add(tempV);
             }
 
         }
 
+        if (!solutionNodes.isEmpty()) {
+            for (Node n : solutionNodes) {
+                sb.append("(" + n.GetCoordinates().x + ", " + n.GetCoordinates().y + ") , ");
+            }
 
-        for (Node n : solutionNodes) {
-            sb.append("(" + n.GetCoordinates().x + ", " + n.GetCoordinates().y + ") , ");
+            for (int i = 1; i <= 3; i++)
+                sb.deleteCharAt(sb.length() - 1);
+            System.out.println(sb.toString());
         }
-
-        for (int i = 1; i <= 3; i++)
-            sb.deleteCharAt(sb.length()-1<);
-        System.out.println(sb.toString());
 
 
     }

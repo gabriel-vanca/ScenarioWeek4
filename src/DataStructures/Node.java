@@ -29,12 +29,6 @@ public class Node {
         robotsAtThisNode.add(currentRobot);
     }
 
-  /*  public void AddNeighbouringNode(Node node)
-    {
-        Edge edge = new Edge(this, node);
-        edgesList.add(edge);
-    }*/
-
     public Coordinates GetCoordinates()
     {
         return coordinates;

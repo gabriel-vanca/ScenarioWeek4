@@ -1,4 +1,4 @@
-package com.frappe.main;
+package com.scenarioweek4.main;
 
 import DataStructures.*;
 import FileIO.InputReader;
@@ -32,7 +32,7 @@ public class Map {
 
     public void LoadMapDataFromLine(int line)  // specify the line
     {
-        //We get the com.frappe.main.Graph instance
+        //We get the Graph instance
         Graph graph = Graph.GetInstance();
         graph.CleanGraph();
 
@@ -92,7 +92,7 @@ public class Map {
 
             ArrayList<Node> verticesList = new ArrayList<>();
             ArrayList<Line2D> edgesList = new ArrayList<>();
-            Obstacle newObstacle = new Obstacle(verticesList, edgesList);
+            Obstacle currentObstacle = new Obstacle(verticesList, edgesList);
 
             /*We initilise a new NumberScanner for each of the relevant Strings
               and then we get each vertex of the obstacles.
@@ -103,7 +103,7 @@ public class Map {
                 double x = scannerObj.GetNextDouble();
                 double y = scannerObj.GetNextDouble();
 
-                Node node = new Node(x,y, newObstacle);
+                Node node = new Node(x,y, currentObstacle);
                 graph.AddNode(node);
                 verticesList.add(node);
 
@@ -111,9 +111,10 @@ public class Map {
                 if (!edgesList.isEmpty()) {
                     Line2D lastLine = edgesList.get(edgesList.size() - 1);
                     newLine = new Line2D.Double(lastLine.getX2(), lastLine.getY2(), x, y);
-
+                    currentObstacle.polygonShape.lineTo(x,y);
                 } else {
                     newLine = new Line2D.Double(x, y, x, y);
+                    currentObstacle.polygonShape.moveTo(x,y);
                 }
                 edgesList.add(newLine);
             }
@@ -125,7 +126,8 @@ public class Map {
                     edgesList.get(0).getX1(),
                     edgesList.get(0).getY1());
             edgesList.add(finalEdge);
-            obstaclesList.add(newObstacle);
+            currentObstacle.polygonShape.closePath();
+            obstaclesList.add(currentObstacle);
         }
     }
 }

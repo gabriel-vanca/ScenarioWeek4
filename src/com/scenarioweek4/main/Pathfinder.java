@@ -1,4 +1,4 @@
-package com.frappe.main;
+package com.scenarioweek4.main;
 
 import DataStructures.Coordinates;
 import DataStructures.Edge;
@@ -27,7 +27,7 @@ public class Pathfinder {
         HashMap<Node, Node> cameFrom = new HashMap<>();
 
 
-        // com.frappe.main.Map containing default value of Inf.
+        // Map containing default value of Inf.
         // Add all nodes into here.
         HashMap<Node, Double> gScore = new HashMap<>();
 
