@@ -113,24 +113,25 @@ public class Graph {
             for (int i=0; i< currentObstacle.verticesList.size() - 1; i++)
             {
                 Node currentNode = currentObstacle.verticesList.get(i);
-                Node alternativeNode = currentObstacle.verticesList.get(i+1);
+                Node alternativeNode; //= currentObstacle.verticesList.get(i+1);
 
                 //Adding edges between adjacent vertexes of the obstacle
-                newLine = buildLineBetweenNodes(currentNode, alternativeNode);
+              /*  newLine = buildLineBetweenNodes(currentNode, alternativeNode);
                 buildEdgeBetweenNodes(currentNode, alternativeNode, newLine);
-
-                for (int j=i+2; j< currentObstacle.verticesList.size() ; j++)
+*/
+                for (int j=i+1; j< currentObstacle.verticesList.size() ; j++)
                 {
                     alternativeNode = currentObstacle.verticesList.get(j);
 
                     newLine = buildLineBetweenNodes(currentNode, alternativeNode);
-                    if(!isLineIntersectingAnyObstacle(newLine))
+                    //if(!isLineIntersectingAnyObstacle(newLine))
+                    if(canBuildEdgeBetweenTwoObstacleVertices(i,j,currentObstacle))
                         buildEdgeBetweenNodes(currentNode, alternativeNode, newLine);
                 }
             }
 
-            newLine = buildLineBetweenNodes(currentObstacle.verticesList.get(0), currentObstacle.verticesList.get(currentObstacle.verticesList.size()-1));
-            buildEdgeBetweenNodes(currentObstacle.verticesList.get(0), currentObstacle.verticesList.get(currentObstacle.verticesList.size()-1), newLine);
+           /* newLine = buildLineBetweenNodes(currentObstacle.verticesList.get(0), currentObstacle.verticesList.get(currentObstacle.verticesList.size()-1));
+            buildEdgeBetweenNodes(currentObstacle.verticesList.get(0), currentObstacle.verticesList.get(currentObstacle.verticesList.size()-1), newLine);*/
         }
     }
 
@@ -172,5 +173,50 @@ public class Graph {
                 return true;
         }
         return false;
+    }
+
+    private double getAreaOfPolygon(ArrayList<Node> nodesList)
+    {
+        double area = 0.0;
+
+        for(int i=1; i<nodesList.size();i++)
+        {
+            area += nodesList.get(i).GetCoordinates().x * nodesList.get(i-1).GetCoordinates().y
+                    -
+                    nodesList.get(i-1).GetCoordinates().x * nodesList.get(i).GetCoordinates().y;
+        }
+
+        area += nodesList.get(0).GetCoordinates().x * nodesList.get(nodesList.size()-1).GetCoordinates().y
+                -
+                nodesList.get(nodesList.size()-1).GetCoordinates().x * nodesList.get(0).GetCoordinates().y;
+
+        return area/2.0;
+    }
+
+    public static Boolean DoubleEqual(double d1, double d2)
+    {
+        return Math.abs(d1-d2) - 0.00001 < 0;
+    }
+
+    private Boolean canBuildEdgeBetweenTwoObstacleVertices(int posNode1, int posNode2, Obstacle currentObstacle)
+    {
+        ArrayList<Node> nodesList1 = new ArrayList<>();
+        ArrayList<Node> nodesList2 = new ArrayList<>();
+
+        for(int i=0; i<=posNode1;i++)
+            nodesList1.add(currentObstacle.verticesList.get(i));
+        for(int i=posNode1; i<=posNode2;i++)
+            nodesList2.add(currentObstacle.verticesList.get(i));
+        for(int i=posNode2; i<currentObstacle.verticesList.size();i++)
+            nodesList1.add(currentObstacle.verticesList.get(i));
+
+        if(nodesList1.size() <= 2 || nodesList2.size() <= 2)
+            return true;
+
+        double totalArea = getAreaOfPolygon(currentObstacle.verticesList);
+        double area1 = getAreaOfPolygon(nodesList1);
+        double area2 = getAreaOfPolygon(nodesList2);
+
+        return !DoubleEqual(totalArea, area1+area2);
     }
 }
