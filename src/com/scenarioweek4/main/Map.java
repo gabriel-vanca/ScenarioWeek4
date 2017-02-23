@@ -16,7 +16,6 @@ public class Map {
     private static Map instance = null;
 
     public ArrayList<Robot> RobotsList;
-   // public ArrayList<Edge> EdgesList = new ArrayList<Edge>(); ANOTHER DUBIOUS PIECE OF CODE. WTF IS GOING ON???
     public ArrayList<Obstacle> obstaclesList;
 
     private Map() {

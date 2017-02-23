@@ -16,15 +16,4 @@ public class Obstacle {
         this.verticesList = verticesList;
         this.edgesList = edgesList;
     }
-
-//    public void ConstructShape()
-//    {
-//        polygonShape.moveTo(verticesList.get(0).GetCoordinates().x, verticesList.get(0).GetCoordinates().y);
-//        for (int index=1; index<verticesList.size(); index++) {
-//            Node vertex = verticesList.get(index);
-//            polygonShape.lineTo(vertex.GetCoordinates().x, vertex.GetCoordinates().y);
-//        }
-//
-//        polygonShape.closePath();
-//    }
 }
