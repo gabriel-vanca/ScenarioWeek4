@@ -5,9 +5,11 @@ package DataStructures;
  */
 public class Robot {
     private Coordinates robotPosition;
+    private boolean isAwake;
 
     public Robot(Coordinates coordinates) {
         SetCoordinates(coordinates);
+        this.isAwake = false;
     }
 
     public Coordinates GetCoordinates() {
@@ -16,5 +18,13 @@ public class Robot {
 
     public void SetCoordinates(Coordinates newCoordinates) {
         robotPosition = newCoordinates;
+    }
+
+    public void wake() {
+        this.isAwake = true;
+    }
+
+    public boolean isAwake() {
+        return this.isAwake;
     }
 }
