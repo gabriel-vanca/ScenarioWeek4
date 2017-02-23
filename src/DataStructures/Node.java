@@ -29,6 +29,18 @@ public class Node {
         robotsAtThisNode.add(currentRobot);
     }
 
+    public boolean moveRobot(Robot robot, Node node) {
+        if (this.robotsAtThisNode.contains(robot)) {
+            node.addRobot(robot);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void addRobot(Robot robot) {
+        this.robotsAtThisNode.add(robot);
+    }
   /*  public void AddNeighbouringNode(Node node)
     {
         Edge edge = new Edge(this, node);
