@@ -29,8 +29,6 @@ public class NumberScanner {
                 (!Character.isDigit(loadedString.charAt(position))
                         &&
                         loadedString.charAt(position) != '-'));
-
-
     }
 
     public double GetNextDouble() {
@@ -47,7 +45,6 @@ public class NumberScanner {
                 break;
         }
 
-        double result = Double.parseDouble(number);
-        return result;
+        return Double.parseDouble(number);
     }
 }

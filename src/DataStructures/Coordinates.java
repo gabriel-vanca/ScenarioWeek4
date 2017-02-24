@@ -3,6 +3,7 @@ package DataStructures;
 /**
  * Created by Gabriel on 20/02/2017.
  */
+
 public class Coordinates
 {
     public double x;

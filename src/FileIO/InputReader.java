@@ -20,7 +20,7 @@ public class InputReader {
         readFile();
     }
 
-    public static InputReader getInstance()
+    public static InputReader GetInstance()
     {
         if(instance == null)
             instance = new InputReader();
@@ -28,7 +28,7 @@ public class InputReader {
     }
 
     private void readFile() {
-        FileReader file = null;
+        FileReader file;
         try {
             file = new FileReader("./files/robots.mat");
             BufferedReader fileReader = new BufferedReader(file);
@@ -48,5 +48,10 @@ public class InputReader {
     public String GetLine(int line)
     {
         return fileData.get(line);
+    }
+
+    public int GetNumberOfLine()
+    {
+        return fileData.size();
     }
 }
