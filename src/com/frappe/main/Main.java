@@ -25,15 +25,16 @@ public class Main {
 //        }
 
         // Run one instance only
-        int line = 1;
+        int line = 10;
         // Login Details
         System.out.println("valravn");
         System.out.println("perb6k7bsq7gm4c3g4befad53u");
 
         map.LoadMapDataFromLine(line);
         graph.ConstructGraph();
-        System.out.println(line + ": ");
+        System.out.print(line + ": ");
         Advanced a = new Advanced();
+//        Basic b = new Basic();
     }
 
     private static void printNode(Node node) {

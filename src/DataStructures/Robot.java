@@ -5,10 +5,11 @@ package DataStructures;
  */
 public class Robot {
     private Coordinates robotPosition;
-    private boolean isAwake = false;
+    private boolean isAwake;
 
     public Robot(Coordinates coordinates) {
         SetCoordinates(coordinates);
+        isAwake = false;
     }
 
     public Coordinates GetCoordinates() {
