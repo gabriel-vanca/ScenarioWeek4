@@ -110,10 +110,8 @@ public class Map {
                 if (!edgesList.isEmpty()) {
                     Line2D lastLine = edgesList.get(edgesList.size() - 1);
                     newLine = new Line2D.Double(lastLine.getX2(), lastLine.getY2(), x, y);
-                    currentObstacle.polygonShape.lineTo(x,y);
                 } else {
                     newLine = new Line2D.Double(x, y, x, y);
-                    currentObstacle.polygonShape.moveTo(x,y);
                 }
                 edgesList.add(newLine);
             }
@@ -125,7 +123,6 @@ public class Map {
                     edgesList.get(0).getX1(),
                     edgesList.get(0).getY1());
             edgesList.add(finalEdge);
-            currentObstacle.polygonShape.closePath();
             obstaclesList.add(currentObstacle);
         }
     }

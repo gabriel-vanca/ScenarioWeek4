@@ -22,6 +22,7 @@ public class Main {
 
         for (int line = 1; line <= inputReader.GetNumberOfLine(); line++) {
             map.LoadMapDataFromLine(line);
+
             graph.ConstructGraph();
 
             ArrayList<Node> nodesWithRobots = new ArrayList<>();
@@ -55,6 +56,7 @@ public class Main {
                     stringBuilder.append(", ");
                 }
             }
+            if(i != result.size() - 1)
             stringBuilder.append(";");
         }
     }

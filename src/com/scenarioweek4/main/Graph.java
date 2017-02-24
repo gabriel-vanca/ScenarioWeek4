@@ -124,12 +124,6 @@ public class Graph {
                         buildEdgeBetweenNodes(currentNode, alternativeNode, newLine);
                 }
             }
-
-            //Adding edges between adjacent vertexes of the obstacle
-              /*  newLine = buildLineBetweenNodes(currentNode, alternativeNode);
-                buildEdgeBetweenNodes(currentNode, alternativeNode, newLine); */
-           /* newLine = buildLineBetweenNodes(currentObstacle.verticesList.get(0), currentObstacle.verticesList.get(currentObstacle.verticesList.size()-1));
-            buildEdgeBetweenNodes(currentObstacle.verticesList.get(0), currentObstacle.verticesList.get(currentObstacle.verticesList.size()-1), newLine);*/
         }
     }
 
@@ -170,24 +164,6 @@ public class Graph {
         return false;
     }
 
-    private Boolean isLineIntersectingObstacle(Line2D currentLine, Obstacle currentObstacle)
-    {
-        return currentObstacle.polygonShape.intersects(currentLine.getBounds());
-    }
-
-    private Boolean isLineIntersectingAnyObstacleExceptItsParent(Line2D currentLine, Obstacle parentObstacle)
-    {
-        Map map = Map.GetInstance();
-
-        for (Obstacle currentObstacle:map.obstaclesList) {
-            if(parentObstacle != null && parentObstacle.equals(currentObstacle))
-                continue;
-            if(isLineIntersectingObstacle(currentLine, currentObstacle))
-                return true;
-        }
-        return false;
-    }
-
     private double getAreaOfPolygon(ArrayList<Node> nodesList)
     {
         double area = 0.0;
@@ -225,8 +201,8 @@ public class Graph {
         if(posNode1 + 1 == posNode2)
             return true;
 
-        //Step 1: Check against all the other obstacles
-        if(isLineIntersectingAnyObstacleExceptItsParent(newLine, currentObstacle))
+        //Step 1: Check against all obstacles
+        if(isLineIntersectingAnyObstacleEdge(newLine))
             return false;
 
         //Step 2: Divide polygon in 2 and see if the areas add up. If they do, then the line is inside the polygon
